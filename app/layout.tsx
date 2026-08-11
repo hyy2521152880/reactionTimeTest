@@ -1,0 +1,42 @@
+import type { Metadata, Viewport } from "next";
+import type { ReactNode } from "react";
+import "./globals.css";
+
+const siteUrl = "https://reaction-time.org";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  title: "Reaction Time Test - Free Online Reaction Test",
+  description: "Take a free reaction time test online. This five-round reaction test measures your average and best reaction time in milliseconds on desktop or mobile.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "Reaction Time Test - Free Online Reaction Test",
+    description: "Measure your reaction time in five quick rounds and compare your average and best result.",
+    url: siteUrl,
+    siteName: "Reaction Time",
+    type: "website",
+    locale: "en_US",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Reaction Time Test score screen" }]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Reaction Time Test - Free Online Reaction Test",
+    description: "Measure your reaction time in five quick rounds.",
+    images: ["/og-image.png"]
+  },
+  icons: { icon: "/icon.svg" }
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#ffffff"
+};
+
+export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
