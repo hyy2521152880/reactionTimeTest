@@ -5,6 +5,7 @@ import "./globals.css";
 
 const siteUrl = "https://reaction-test.org";
 const googleAnalyticsId = "G-2HRMEWXZ0G";
+const microsoftClarityId = "y0srrpjzkn";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -50,6 +51,15 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', '${googleAnalyticsId}');
+          `}
+        </Script>
+        <Script id="microsoft-clarity" strategy="afterInteractive">
+          {`
+            (function(c,l,a,r,i,t,y){
+              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "${microsoftClarityId}");
           `}
         </Script>
       </body>
