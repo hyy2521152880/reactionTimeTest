@@ -17,16 +17,16 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://reaction-time.org/#website",
-      url: "https://reaction-time.org/",
+      "@id": "https://reaction-test.org/#website",
+      url: "https://reaction-test.org/",
       name: "Reaction Time",
       inLanguage: "en"
     },
     {
       "@type": "WebApplication",
-      "@id": "https://reaction-time.org/#app",
+      "@id": "https://reaction-test.org/#app",
       name: "Reaction Time Test",
-      url: "https://reaction-time.org/",
+      url: "https://reaction-test.org/",
       description: "A free five-round online reaction test that measures reaction time in milliseconds.",
       applicationCategory: "UtilitiesApplication",
       applicationSubCategory: "Reaction Time Test",
@@ -38,8 +38,8 @@ const jsonLd = {
     },
     {
       "@type": "FAQPage",
-      "@id": "https://reaction-time.org/#faq",
-      url: "https://reaction-time.org/#faq",
+      "@id": "https://reaction-test.org/#faq",
+      url: "https://reaction-test.org/#faq",
       mainEntity: faqItems.map(([name, text]) => ({
         "@type": "Question",
         name,
@@ -195,7 +195,7 @@ export default function HomePage() {
       <footer className="border-t border-line bg-ink py-10 text-white">
         <div className="mx-auto flex max-w-6xl flex-col gap-5 px-4 sm:px-6 md:flex-row md:items-end md:justify-between">
           <div><p className="font-black uppercase">Reaction Time</p><p className="mt-2 text-xs text-slate-400">A free browser-based reaction test. Not a medical assessment.</p></div>
-          <p className="text-xs text-slate-500">© {new Date().getFullYear()} reaction-time.org</p>
+          <p className="text-xs text-slate-500">© {new Date().getFullYear()} reaction-test.org</p>
         </div>
       </footer>
 

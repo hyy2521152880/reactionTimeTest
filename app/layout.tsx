@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 
-const siteUrl = "https://reaction-time.org";
+const siteUrl = "https://reaction-test.org";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

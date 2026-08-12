@@ -96,7 +96,7 @@ export function ReactionTest() {
   const copy = phaseCopy[phase];
 
   const copyResult = useCallback(async () => {
-    const text = `My reaction time: ${average} ms average, ${best} ms best over ${TOTAL_ROUNDS} rounds. Test yours at reaction-time.org`;
+    const text = `My reaction time: ${average} ms average, ${best} ms best over ${TOTAL_ROUNDS} rounds. Test yours at reaction-test.org`;
     try {
       await navigator.clipboard.writeText(text);
       setCopyStatus("Copied");

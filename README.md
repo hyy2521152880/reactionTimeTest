@@ -1,4 +1,4 @@
-# reaction-time.org
+# reaction-test.org
 
 Single-page reaction time test built with Next.js 14, TypeScript, and Tailwind CSS.
 
