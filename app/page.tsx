@@ -61,7 +61,7 @@ export default function HomePage() {
           </a>
           <nav aria-label="Primary navigation" className="flex gap-5 text-xs font-bold text-slate-600 sm:gap-7">
             <a href="#score-guide" className="hover:text-action">Score guide</a>
-            <a href="#how-it-works" className="hidden hover:text-action sm:inline">How it works</a>
+            <a href="/average-reaction-time/" className="hidden hover:text-action sm:inline">Average time</a>
             <a href="#faq" className="hover:text-action">FAQ</a>
           </nav>
         </div>
@@ -140,7 +140,7 @@ export default function HomePage() {
             <div>
               <h2 className="text-3xl font-black sm:text-4xl">Average Reaction Time and What Affects It</h2>
               <h3 className="mt-6 text-lg font-black text-marker">Age, Sleep, and Attention</h3>
-              <p className="mt-3 leading-7 text-slate-300">Age can influence reaction time, but sleep loss, divided attention, stress, medication, alcohol, and recent practice also matter. A slow session may reflect temporary conditions rather than a stable ability.</p>
+              <p className="mt-3 leading-7 text-slate-300">Age can influence reaction time, but sleep loss, divided attention, stress, medication, alcohol, and recent practice also matter. See our research-based guide to <a href="/average-reaction-time/" className="font-bold text-marker">average reaction time by age</a> before comparing your score.</p>
               <h3 className="mt-6 text-lg font-black text-marker">Mouse, Touchscreen, and Display Delay</h3>
               <p className="mt-3 leading-7 text-slate-300">Displays update in frames, and input devices report at different rates. For fair comparisons, keep the same browser, display, and input device, close demanding tabs, and avoid switching between touch and mouse results.</p>
             </div>
