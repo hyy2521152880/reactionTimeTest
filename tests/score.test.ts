@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { averageScore, bestScore, getScoreBand } from "../lib/score";
+import { averageScore, bestScore, consistencyScore, estimatedPercentile, getScoreBand } from "../lib/score";
 
 test("calculates five-round summary values", () => {
   const scores = [241, 203, 219, 231, 196];
@@ -12,6 +12,16 @@ test("calculates five-round summary values", () => {
 test("handles empty score collections", () => {
   assert.equal(averageScore([]), 0);
   assert.equal(bestScore([]), 0);
+  assert.equal(estimatedPercentile(0), 0);
+  assert.equal(consistencyScore([]), 0);
+});
+
+test("calculates bounded comparison metrics", () => {
+  assert.equal(estimatedPercentile(150), 99);
+  assert.equal(estimatedPercentile(300), 73);
+  assert.equal(estimatedPercentile(900), 1);
+  assert.equal(consistencyScore([200, 200, 200]), 100);
+  assert.ok(consistencyScore([180, 220, 260]) < 100);
 });
 
 test("uses stable score band boundaries", () => {
