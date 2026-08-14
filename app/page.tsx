@@ -1,4 +1,4 @@
-import { ArrowDown, ExternalLink, Plus } from "lucide-react";
+import { ArrowDown, ArrowRight, ExternalLink, Plus } from "lucide-react";
 import { ReactionTest } from "@/components/reaction-test";
 
 const faqItems = [
@@ -61,7 +61,7 @@ export default function HomePage() {
           </a>
           <nav aria-label="Primary navigation" className="flex gap-5 text-xs font-bold text-slate-600 sm:gap-7">
             <a href="#score-guide" className="hover:text-action">Score guide</a>
-            <a href="/average-reaction-time/" className="hidden hover:text-action sm:inline">Average time</a>
+            <a href="/reflex-test/" className="hidden hover:text-action sm:inline">Reflex test</a>
             <a href="#faq" className="hover:text-action">FAQ</a>
           </nav>
         </div>
@@ -151,7 +151,7 @@ export default function HomePage() {
           <div className="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
             <div>
               <h2 className="text-3xl font-black sm:text-4xl">How to Improve Your Reaction Time</h2>
-              <p className="mt-5 leading-7 text-slate-600">Short, focused practice is more useful than repeatedly clicking while tired. Begin with two or three five-round sessions, then stop. Regular aerobic exercise, sufficient sleep, hydration, and fewer distractions support attention and motor performance. If scores become slower or erratic, take a break instead of forcing another run.</p>
+              <p className="mt-5 leading-7 text-slate-600">Short, focused practice is more useful than repeatedly clicking while tired. Begin with two or three five-round sessions, then stop. Regular aerobic exercise, sufficient sleep, hydration, and fewer distractions support attention and motor performance. Follow the complete guide on <a href="/how-to-increase-reaction-time/" className="font-bold text-action">how to increase reaction time</a> for a repeatable weekly plan.</p>
               <h3 className="mt-8 text-xl font-black">Practice for Consistency</h3>
               <p className="mt-3 leading-7 text-slate-600">Try to reduce the spread between attempts before chasing a record. Use the same posture and input device, look at the center of the test surface, and avoid timing the random delay. Predicting the signal may create a fast number, but it does not represent a valid response.</p>
               <h3 className="mt-8 text-xl font-black">Recover Before You Retest</h3>
@@ -162,6 +162,19 @@ export default function HomePage() {
               <p className="mt-5 leading-7 text-slate-600">Fast responses matter in competitive games, racquet sports, goalkeeping, and driving, but real performance includes anticipation, decision-making, movement accuracy, and context. A simple reaction time test isolates only one small part of that system.</p>
               <p className="mt-4 leading-7 text-slate-600">Use this tool as a warm-up or personal benchmark. It cannot predict match performance, driving safety, neurological health, or fitness for a job.</p>
             </aside>
+          </div>
+        </section>
+
+        <section className="copy-section border-b border-line bg-paper py-16 sm:py-24" aria-labelledby="explore-title">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <p className="text-xs font-black uppercase tracking-[0.1em] text-action">Reaction time library</p>
+            <h2 id="explore-title" className="mt-3 max-w-3xl text-3xl font-black sm:text-4xl">Test, Compare, and Train Your Response Speed</h2>
+            <p className="mt-5 max-w-3xl leading-7 text-slate-600">Choose the next step based on what you want to learn. Every guide uses the same measurement limits: online scores include your display, browser, and input device.</p>
+            <div className="mt-10 divide-y divide-line border-y border-line">
+              <a href="/average-reaction-time/" className="group grid gap-3 py-6 no-underline sm:grid-cols-[1fr_1.4fr_auto] sm:items-center sm:gap-8"><span className="font-black">Average Reaction Time</span><span className="text-sm leading-6 text-slate-600">Compare your result with research-based age estimates and practical browser ranges.</span><ArrowRight aria-hidden="true" className="h-5 w-5 text-action transition-transform group-hover:translate-x-1" /></a>
+              <a href="/reflex-test/" className="group grid gap-3 py-6 no-underline sm:grid-cols-[1fr_1.4fr_auto] sm:items-center sm:gap-8"><span className="font-black">Reflex Test</span><span className="text-sm leading-6 text-slate-600">Try a five-round visual reflex tester and understand reflex speed.</span><ArrowRight aria-hidden="true" className="h-5 w-5 text-action transition-transform group-hover:translate-x-1" /></a>
+              <a href="/how-to-increase-reaction-time/" className="group grid gap-3 py-6 no-underline sm:grid-cols-[1fr_1.4fr_auto] sm:items-center sm:gap-8"><span className="font-black">How to Increase Reaction Time</span><span className="text-sm leading-6 text-slate-600">Build a short practice plan around sleep, exercise, focus, and valid testing.</span><ArrowRight aria-hidden="true" className="h-5 w-5 text-action transition-transform group-hover:translate-x-1" /></a>
+            </div>
           </div>
         </section>
 

@@ -24,7 +24,13 @@ const phaseCopy: Record<Phase, { eyebrow: string; title: string; detail: string 
   interrupted: { eyebrow: "Round paused", title: "Try that round again", detail: "The tab lost focus while timing." }
 };
 
-export function ReactionTest() {
+type ReactionTestProps = {
+  label?: string;
+  completionLabel?: string;
+  ariaLabel?: string;
+};
+
+export function ReactionTest({ label = "Reaction lab", completionLabel = "Reaction time", ariaLabel = "Reaction time test" }: ReactionTestProps = {}) {
   const [phase, setPhase] = useState<Phase>("idle");
   const [scores, setScores] = useState<number[]>([]);
   const [lastScore, setLastScore] = useState<number | null>(null);
@@ -112,9 +118,9 @@ export function ReactionTest() {
       : "bg-white text-ink";
 
   return (
-    <section aria-label="Reaction time test" className="overflow-hidden rounded-lg border border-line bg-white shadow-console">
+    <section aria-label={ariaLabel} className="overflow-hidden rounded-lg border border-line bg-white shadow-console">
       <div className="flex h-11 items-center justify-between border-b border-line px-4 text-[11px] font-bold uppercase tracking-[0.08em]">
-        <span className="flex items-center gap-2"><TimerReset aria-hidden="true" className="h-4 w-4 text-action" /> Reaction lab</span>
+        <span className="flex items-center gap-2"><TimerReset aria-hidden="true" className="h-4 w-4 text-action" /> {label}</span>
         <span className="text-slate-500">Valid attempts {scores.length}/{TOTAL_ROUNDS}</span>
       </div>
 
@@ -140,7 +146,7 @@ export function ReactionTest() {
             <div>
               <p className="mb-2 text-xs font-bold uppercase tracking-[0.08em] text-action">{copy.eyebrow}</p>
               <p className="data-number text-7xl font-black leading-none md:text-8xl" data-average>{average}<span className="ml-2 text-xl">ms</span></p>
-              <p className="mt-3 text-sm text-slate-600">Average reaction time</p>
+              <p className="mt-3 text-sm text-slate-600">Average {completionLabel.toLowerCase()}</p>
             </div>
             <dl className="border-t border-line text-sm">
               <div className="flex justify-between border-b border-line py-3"><dt className="text-slate-500">Best attempt</dt><dd className="data-number font-bold" data-best>{best} ms</dd></div>
