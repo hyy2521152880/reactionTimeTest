@@ -69,13 +69,13 @@ export default function HomePage() {
 
       <main id="main">
         <section id="top" className="timing-grid border-b border-line px-4 pb-14 pt-12 sm:px-6 sm:pb-20 sm:pt-16">
-          <div className="mx-auto max-w-5xl">
-            <div className="mx-auto mb-8 max-w-3xl text-center">
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-8 max-w-3xl text-center sm:text-left lg:mb-10">
               <p className="mb-3 text-xs font-black uppercase tracking-[0.1em] text-action">Five valid rounds. One reliable average.</p>
               <h1 className="text-4xl font-black leading-[1.05] sm:text-5xl lg:text-6xl">Reaction Time Test</h1>
-              <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-600">Take this free online reaction test to measure how quickly you respond when the screen turns green. Complete five valid attempts to see your average and best reaction time in milliseconds.</p>
+              <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-600 sm:mx-0">Take this free online reaction test to measure how quickly you respond when the screen turns green. Complete five valid attempts to see your average and best reaction time in milliseconds.</p>
             </div>
-            <ReactionTest />
+            <div className="lg:ml-10"><ReactionTest /></div>
             <a href="#score-guide" className="mx-auto mt-6 flex w-fit items-center gap-2 text-xs font-bold text-slate-600 no-underline hover:text-action">Understand your score <ArrowDown aria-hidden="true" className="h-4 w-4" /></a>
           </div>
         </section>
@@ -83,7 +83,7 @@ export default function HomePage() {
         <section id="score-guide" className="copy-section border-b border-line bg-white py-16 sm:py-24">
           <div className="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
             <div className="min-w-0">
-              <p className="text-xs font-black uppercase tracking-[0.1em] text-action">Read the result</p>
+              <p className="text-sm font-bold text-action">Read the result</p>
               <h2 className="mt-3 text-3xl font-black sm:text-4xl">Understand Your Reaction Test Result</h2>
               <p className="mt-5 leading-7 text-slate-600">Your five-round average is more useful than a single lucky click. The best attempt shows your fastest valid response, while the spread between attempts indicates consistency. Compare sessions only when you use similar hardware and conditions.</p>
               <h3 className="mt-10 text-xl font-black">Why Device Latency Matters</h3>
@@ -122,27 +122,27 @@ export default function HomePage() {
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <h2 className="max-w-3xl text-3xl font-black sm:text-4xl">How Does This Reaction Test Work?</h2>
             <p className="mt-5 max-w-3xl leading-7 text-slate-600">The reaction test uses a random wait to make anticipation harder. Only clicks after the green signal count. Five valid rounds balance speed with consistency and reduce the influence of one unusually fast or slow attempt.</p>
-            <ol className="mt-10 grid gap-px overflow-hidden rounded-lg border border-line bg-line md:grid-cols-3">
-              <li className="bg-white p-6"><span className="data-number text-4xl font-black text-action">01</span><h3 className="mt-8 text-lg font-black">Wait for the Screen to Turn Green</h3><p className="mt-3 text-sm leading-6 text-slate-600">Start a round and keep your pointer or finger ready. The waiting period changes each time. Clicking during red creates a false start and the attempt is discarded.</p></li>
-              <li className="bg-white p-6"><span className="data-number text-4xl font-black text-signal">02</span><h3 className="mt-8 text-lg font-black">Click as Fast as You Can</h3><p className="mt-3 text-sm leading-6 text-slate-600">Respond once the surface turns green and says Click. The browser uses its high-resolution performance clock to calculate elapsed time.</p></li>
-              <li className="bg-white p-6"><span className="data-number text-4xl font-black text-caution">03</span><h3 className="mt-8 text-lg font-black">Complete Five Valid Rounds</h3><p className="mt-3 text-sm leading-6 text-slate-600">Each valid result appears in the attempt rail. After round five, the test calculates your average, fastest attempt, and practical score band.</p></li>
+            <ol className="mt-10 grid border-y border-line md:grid-cols-3">
+              <li className="relative py-7 md:pr-8"><span className="data-number text-sm font-black text-action">01</span><h3 className="mt-4 text-lg font-black">Wait for the Screen to Turn Green</h3><p className="mt-3 text-sm leading-6 text-slate-600">Start a round and keep your pointer or finger ready. The waiting period changes each time. Clicking during red creates a false start and the attempt is discarded.</p></li>
+              <li className="relative border-t border-line py-7 md:border-l md:border-t-0 md:px-8"><span className="data-number text-sm font-black text-signal">02</span><h3 className="mt-4 text-lg font-black">Click as Fast as You Can</h3><p className="mt-3 text-sm leading-6 text-slate-600">Respond once the surface turns green and says Click. The browser uses its high-resolution performance clock to calculate elapsed time.</p></li>
+              <li className="relative border-t border-line py-7 md:border-l md:border-t-0 md:pl-8"><span className="data-number text-sm font-black text-caution">03</span><h3 className="mt-4 text-lg font-black">Complete Five Valid Rounds</h3><p className="mt-3 text-sm leading-6 text-slate-600">Each valid result appears in the attempt rail. After round five, the test calculates your average, fastest attempt, and practical score band.</p></li>
             </ol>
           </div>
         </section>
 
-        <section className="copy-section bg-ink py-16 text-white sm:py-24">
+        <section className="copy-section border-y border-line bg-paper py-16 sm:py-24">
           <div className="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-20">
             <div>
               <h2 className="text-3xl font-black sm:text-4xl">What Is a Good Reaction Time?</h2>
-              <p className="mt-5 leading-7 text-slate-300">A good reaction time is a repeatable result produced without guessing. Around 200 milliseconds is fast for many browser tests, but the correct comparison depends on the task and equipment. A racing start, laboratory button box, touchscreen tap, and gaming mouse do not measure the exact same chain of events.</p>
-              <p className="mt-4 leading-7 text-slate-300">Treat your first session as a baseline. Repeat the five-round test on the same device at similar times of day. Improvement is more convincing when the average becomes faster and the results become less variable across several sessions.</p>
+              <p className="mt-5 leading-7 text-slate-600">A good reaction time is a repeatable result produced without guessing. Around 200 milliseconds is fast for many browser tests, but the correct comparison depends on the task and equipment. A racing start, laboratory button box, touchscreen tap, and gaming mouse do not measure the exact same chain of events.</p>
+              <p className="mt-4 leading-7 text-slate-600">Treat your first session as a baseline. Repeat the five-round test on the same device at similar times of day. Improvement is more convincing when the average becomes faster and the results become less variable across several sessions.</p>
             </div>
             <div>
               <h2 className="text-3xl font-black sm:text-4xl">Average Reaction Time and What Affects It</h2>
-              <h3 className="mt-6 text-lg font-black text-marker">Age, Sleep, and Attention</h3>
-              <p className="mt-3 leading-7 text-slate-300">Age can influence reaction time, but sleep loss, divided attention, stress, medication, alcohol, and recent practice also matter. See our research-based guide to <a href="/average-reaction-time/" className="font-bold text-marker">average reaction time by age</a> before comparing your score.</p>
-              <h3 className="mt-6 text-lg font-black text-marker">Mouse, Touchscreen, and Display Delay</h3>
-              <p className="mt-3 leading-7 text-slate-300">Displays update in frames, and input devices report at different rates. For fair comparisons, keep the same browser, display, and input device, close demanding tabs, and avoid switching between touch and mouse results.</p>
+              <h3 className="mt-6 text-lg font-black text-action">Age, Sleep, and Attention</h3>
+              <p className="mt-3 leading-7 text-slate-600">Age can influence reaction time, but sleep loss, divided attention, stress, medication, alcohol, and recent practice also matter. See our research-based guide to <a href="/average-reaction-time/" className="font-bold text-action">average reaction time by age</a> before comparing your score.</p>
+              <h3 className="mt-6 text-lg font-black text-action">Mouse, Touchscreen, and Display Delay</h3>
+              <p className="mt-3 leading-7 text-slate-600">Displays update in frames, and input devices report at different rates. For fair comparisons, keep the same browser, display, and input device, close demanding tabs, and avoid switching between touch and mouse results.</p>
             </div>
           </div>
         </section>
@@ -167,7 +167,7 @@ export default function HomePage() {
 
         <section className="copy-section border-b border-line bg-paper py-16 sm:py-24" aria-labelledby="explore-title">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <p className="text-xs font-black uppercase tracking-[0.1em] text-action">Reaction time library</p>
+            <p className="text-sm font-bold text-action">Reaction time library</p>
             <h2 id="explore-title" className="mt-3 max-w-3xl text-3xl font-black sm:text-4xl">Test, Compare, and Train Your Response Speed</h2>
             <p className="mt-5 max-w-3xl leading-7 text-slate-600">Choose the next step based on what you want to learn. Every guide uses the same measurement limits: online scores include your display, browser, and input device.</p>
             <div className="mt-10 divide-y divide-line border-y border-line">
@@ -181,7 +181,7 @@ export default function HomePage() {
         <section id="faq" className="faq copy-section bg-paper py-16 sm:py-24">
           <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.65fr_1.35fr] lg:gap-20">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.1em] text-action">Quick answers</p>
+              <p className="text-sm font-bold text-action">Quick answers</p>
               <h2 className="mt-3 text-3xl font-black sm:text-4xl">Frequently Asked Questions</h2>
               <p className="mt-5 text-sm leading-6 text-slate-600">How to interpret and compare an online reaction time result.</p>
             </div>

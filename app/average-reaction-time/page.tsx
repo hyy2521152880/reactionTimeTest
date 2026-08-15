@@ -174,14 +174,14 @@ export default function AverageReactionTimePage() {
             </div>
           </section>
 
-          <section id="fast-slow" className="copy-section scroll-mt-6 border-y border-line bg-ink py-16 text-white sm:py-24">
+          <section id="fast-slow" className="copy-section scroll-mt-6 border-y border-line bg-paper py-16 sm:py-24">
             <div className="mx-auto max-w-6xl px-4 sm:px-6">
               <h2 className="max-w-3xl text-3xl font-black sm:text-4xl">What&apos;s a Fast vs. Slow Reaction Time?</h2>
-              <p className="mt-5 max-w-3xl leading-7 text-slate-300">These bands are useful for interpreting a five-round browser average, not for diagnosis. Retest under the same conditions before drawing a conclusion.</p>
-              <div className="mt-10 grid gap-px overflow-hidden rounded-lg border border-slate-700 bg-slate-700 md:grid-cols-3">
-                <div className="bg-ink p-6"><p className="data-number text-4xl font-black text-signal">&lt;200 ms</p><h3 className="mt-6 text-xl font-black">Fast</h3><p className="mt-3 text-sm leading-6 text-slate-300">A strong visual response on many browser setups. Repeat it across five valid rounds to rule out anticipation.</p></div>
-                <div className="bg-ink p-6"><p className="data-number text-4xl font-black text-marker">200-300 ms</p><h3 className="mt-6 text-xl font-black">Average range</h3><p className="mt-3 text-sm leading-6 text-slate-300">Where many adults&apos; online results fall once display and input latency are included.</p></div>
-                <div className="bg-ink p-6"><p className="data-number text-4xl font-black text-caution">&gt;300 ms</p><h3 className="mt-6 text-xl font-black">Slower session</h3><p className="mt-3 text-sm leading-6 text-slate-300">Fatigue, distraction, age, unfamiliarity, or device delay may contribute. One session is not a diagnosis.</p></div>
+              <p className="mt-5 max-w-3xl leading-7 text-slate-600">These bands are useful for interpreting a five-round browser average, not for diagnosis. Retest under the same conditions before drawing a conclusion.</p>
+              <div className="mt-10 grid gap-px overflow-hidden rounded-lg border border-line bg-line md:grid-cols-3">
+                <div className="bg-white p-6"><p className="data-number text-4xl font-black text-signal">&lt;200 ms</p><h3 className="mt-6 text-xl font-black">Fast</h3><p className="mt-3 text-sm leading-6 text-slate-600">A strong visual response on many browser setups. Repeat it across five valid rounds to rule out anticipation.</p></div>
+                <div className="bg-white p-6"><p className="data-number text-4xl font-black text-action">200-300 ms</p><h3 className="mt-6 text-xl font-black">Average range</h3><p className="mt-3 text-sm leading-6 text-slate-600">Where many adults&apos; online results fall once display and input latency are included.</p></div>
+                <div className="bg-white p-6"><p className="data-number text-4xl font-black text-caution">&gt;300 ms</p><h3 className="mt-6 text-xl font-black">Slower session</h3><p className="mt-3 text-sm leading-6 text-slate-600">Fatigue, distraction, age, unfamiliarity, or device delay may contribute. One session is not a diagnosis.</p></div>
               </div>
             </div>
           </section>

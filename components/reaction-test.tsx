@@ -236,7 +236,7 @@ export function ReactionTest({ label = "Reaction lab", completionLabel = "Reacti
         data-phase={phase}
         data-test-surface
       >
-        <div aria-hidden="true" className="absolute inset-x-0 top-0 flex h-8 items-end justify-between px-3 text-[9px] opacity-50">
+        <div aria-hidden="true" className={`absolute inset-x-0 top-0 flex h-8 items-end justify-between px-3 text-[9px] transition-opacity ${phase === "idle" ? "opacity-20" : "opacity-50"}`}>
           {Array.from({ length: 21 }, (_, index) => <i className="h-2 border-l border-current not-italic" key={index}>{index % 5 === 0 ? index : ""}</i>)}
         </div>
         {phase === "complete" ? (
@@ -288,11 +288,11 @@ export function ReactionTest({ label = "Reaction lab", completionLabel = "Reacti
             <button type="button" onClick={reset} className="inline-flex min-h-10 items-center gap-2 rounded-md bg-action px-4 text-sm font-bold text-white hover:bg-blue-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-action">
               <RotateCcw aria-hidden="true" className="h-4 w-4" /> Test again
             </button>
-            <button type="button" onClick={copyResult} className="inline-flex min-h-10 items-center gap-2 rounded-md border border-line px-4 text-sm font-bold hover:bg-paper focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-action">
-              {copyStatus === "Copied" ? <Check aria-hidden="true" className="h-4 w-4" /> : <Copy aria-hidden="true" className="h-4 w-4" />} {copyStatus}
-            </button>
             <button type="button" onClick={shareScore} className="inline-flex min-h-10 items-center gap-2 rounded-md border border-line px-4 text-sm font-bold hover:bg-paper focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-action">
               {shareStatus === "Image downloaded" ? <Download aria-hidden="true" className="h-4 w-4" /> : <Share2 aria-hidden="true" className="h-4 w-4" />} {shareStatus}
+            </button>
+            <button type="button" onClick={copyResult} aria-label={copyStatus} title={copyStatus} className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-md px-3 text-slate-500 hover:bg-paper hover:text-ink focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-action">
+              {copyStatus === "Copied" ? <Check aria-hidden="true" className="h-4 w-4" /> : <Copy aria-hidden="true" className="h-4 w-4" />}
             </button>
             <p className="w-full text-xs text-slate-500 md:ml-auto md:w-auto">{band.summary}</p>
             <p className="w-full text-[11px] leading-5 text-slate-400">Estimated percentile is based on a general online benchmark, not a clinical or population statistic.</p>
