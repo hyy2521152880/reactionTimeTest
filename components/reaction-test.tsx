@@ -2,6 +2,7 @@
 
 import { Check, Copy, Download, History, RotateCcw, Share2, TimerReset, TrendingDown, TrendingUp, Trophy } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 import { averageScore, bestScore, consistencyScore, estimatedPercentile, getScoreBand } from "@/lib/score";
 
 type Phase = "idle" | "waiting" | "ready" | "result" | "tooEarly" | "complete" | "interrupted";
@@ -91,12 +92,14 @@ export function ReactionTest({ label = "Reaction lab", completionLabel = "Reacti
 
   const activate = useCallback(() => {
     if (phase === "idle" || phase === "result" || phase === "tooEarly" || phase === "interrupted") {
+      if (phase === "idle") trackEvent("test_start", { test_name: ariaLabel });
       beginRound();
       return;
     }
     if (phase === "waiting") {
       clearRoundTimer();
       setPhase("tooEarly");
+      trackEvent("test_false_start", { test_name: ariaLabel, completed_rounds: scores.length });
       return;
     }
     if (phase === "ready" && readyAtRef.current !== null) {
@@ -106,8 +109,16 @@ export function ReactionTest({ label = "Reaction lab", completionLabel = "Reacti
       setLastScore(reaction);
       readyAtRef.current = null;
       setPhase(nextScores.length === TOTAL_ROUNDS ? "complete" : "result");
+      if (nextScores.length === TOTAL_ROUNDS) {
+        trackEvent("test_complete", {
+          test_name: ariaLabel,
+          average_ms: averageScore(nextScores),
+          best_ms: bestScore(nextScores),
+          rounds: TOTAL_ROUNDS
+        });
+      }
     }
-  }, [beginRound, clearRoundTimer, phase, scores]);
+  }, [ariaLabel, beginRound, clearRoundTimer, phase, scores]);
 
   const reset = useCallback(() => {
     clearRoundTimer();
@@ -147,16 +158,18 @@ export function ReactionTest({ label = "Reaction lab", completionLabel = "Reacti
 
   const copyResult = useCallback(async () => {
     const text = `My reaction time: ${average} ms average, ${best} ms best over ${TOTAL_ROUNDS} rounds. Test yours at reaction-test.org`;
+    trackEvent("score_copy", { test_name: ariaLabel, average_ms: average, best_ms: best });
     try {
       await navigator.clipboard.writeText(text);
       setCopyStatus("Copied");
     } catch {
       setCopyStatus("Copy unavailable");
     }
-  }, [average, best]);
+  }, [ariaLabel, average, best]);
 
   const shareScore = useCallback(async () => {
     if (!average) return;
+    trackEvent("score_share", { test_name: ariaLabel, average_ms: average, best_ms: best });
     setShareStatus("Preparing...");
     const canvas = document.createElement("canvas");
     canvas.width = 1200;
@@ -183,7 +196,7 @@ export function ReactionTest({ label = "Reaction lab", completionLabel = "Reacti
     context.fillText(`${band.label}  |  ${percentile}th estimated percentile`, 80, 470);
     context.fillStyle = "#aeb9c4";
     context.font = "500 24px Arial";
-    context.fillText("reaction-time.org", 80, 550);
+    context.fillText("reaction-test.org", 80, 550);
     const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/png"));
     if (!blob) {
       setShareStatus("Share unavailable");
@@ -206,7 +219,7 @@ export function ReactionTest({ label = "Reaction lab", completionLabel = "Reacti
     link.click();
     URL.revokeObjectURL(link.href);
     setShareStatus("Image downloaded");
-  }, [average, band.label, percentile]);
+  }, [ariaLabel, average, band.label, best, percentile]);
 
   const surfaceClass = phase === "waiting"
     ? "bg-caution text-white"

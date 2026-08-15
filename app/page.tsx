@@ -208,7 +208,7 @@ export default function HomePage() {
       <footer className="border-t border-line bg-ink py-10 text-white">
         <div className="mx-auto flex max-w-6xl flex-col gap-5 px-4 sm:px-6 md:flex-row md:items-end md:justify-between">
           <div><p className="font-black uppercase">Reaction Time</p><p className="mt-2 text-xs text-slate-400">A free browser-based reaction test. Not a medical assessment.</p></div>
-          <p className="text-xs text-slate-500">© {new Date().getFullYear()} reaction-test.org</p>
+          <div className="flex items-center gap-4 text-xs text-slate-500"><a href="/privacy/" className="hover:text-white">Privacy</a><span>© {new Date().getFullYear()} reaction-test.org</span></div>
         </div>
       </footer>
 
