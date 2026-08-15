@@ -1,12 +1,21 @@
 "use client";
 
-import { Check, Copy, Download, RotateCcw, Share2, TimerReset } from "lucide-react";
+import { Check, Copy, Download, History, RotateCcw, Share2, TimerReset, TrendingDown, TrendingUp, Trophy } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { averageScore, bestScore, consistencyScore, estimatedPercentile, getScoreBand } from "@/lib/score";
 
 type Phase = "idle" | "waiting" | "ready" | "result" | "tooEarly" | "complete" | "interrupted";
 
 const TOTAL_ROUNDS = 5;
+const HISTORY_KEY = "reaction-time-history-v1";
+
+type SessionResult = {
+  id: string;
+  average: number;
+  best: number;
+  consistency: number;
+  completedAt: number;
+};
 
 function randomDelay(): number {
   const values = new Uint32Array(1);
@@ -36,8 +45,10 @@ export function ReactionTest({ label = "Reaction lab", completionLabel = "Reacti
   const [lastScore, setLastScore] = useState<number | null>(null);
   const [copyStatus, setCopyStatus] = useState("Copy result");
   const [shareStatus, setShareStatus] = useState("Share score");
+  const [history, setHistory] = useState<SessionResult[]>([]);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const readyAtRef = useRef<number | null>(null);
+  const savedSessionRef = useRef<string | null>(null);
 
   const clearRoundTimer = useCallback(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -69,6 +80,15 @@ export function ReactionTest({ label = "Reaction lab", completionLabel = "Reacti
 
   useEffect(() => () => clearRoundTimer(), [clearRoundTimer]);
 
+  useEffect(() => {
+    try {
+      const stored = JSON.parse(window.localStorage.getItem(HISTORY_KEY) ?? "[]") as SessionResult[];
+      if (Array.isArray(stored)) setHistory(stored.slice(0, 5));
+    } catch {
+      window.localStorage.removeItem(HISTORY_KEY);
+    }
+  }, []);
+
   const activate = useCallback(() => {
     if (phase === "idle" || phase === "result" || phase === "tooEarly" || phase === "interrupted") {
       beginRound();
@@ -95,6 +115,7 @@ export function ReactionTest({ label = "Reaction lab", completionLabel = "Reacti
     setLastScore(null);
     setCopyStatus("Copy result");
     setShareStatus("Share score");
+    savedSessionRef.current = null;
     setPhase("idle");
   }, [clearRoundTimer]);
 
@@ -104,6 +125,25 @@ export function ReactionTest({ label = "Reaction lab", completionLabel = "Reacti
   const percentile = estimatedPercentile(average);
   const consistency = consistencyScore(scores);
   const copy = phaseCopy[phase];
+  const sessionId = scores.join("-");
+  const previousSession = history.find((session) => session.id !== sessionId);
+  const personalBest = Math.min(average || Number.POSITIVE_INFINITY, ...history.map((session) => session.average));
+  const comparison = previousSession ? previousSession.average - average : null;
+
+  useEffect(() => {
+    if (phase !== "complete" || scores.length !== TOTAL_ROUNDS || savedSessionRef.current === sessionId) return;
+    savedSessionRef.current = sessionId;
+    const result: SessionResult = { id: sessionId, average, best, consistency, completedAt: Date.now() };
+    setHistory((current) => {
+      const next = [result, ...current.filter((session) => session.id !== sessionId)].slice(0, 5);
+      try {
+        window.localStorage.setItem(HISTORY_KEY, JSON.stringify(next));
+      } catch {
+        // The test still works when storage is unavailable.
+      }
+      return next;
+    });
+  }, [average, best, consistency, phase, scores.length, sessionId]);
 
   const copyResult = useCallback(async () => {
     const text = `My reaction time: ${average} ms average, ${best} ms best over ${TOTAL_ROUNDS} rounds. Test yours at reaction-test.org`;
@@ -205,9 +245,13 @@ export function ReactionTest({ label = "Reaction lab", completionLabel = "Reacti
               <p className="mb-2 text-xs font-bold uppercase tracking-[0.08em] text-action">{copy.eyebrow}</p>
               <p className="data-number text-7xl font-black leading-none md:text-8xl" data-average>{average}<span className="ml-2 text-xl">ms</span></p>
               <p className="mt-3 text-sm text-slate-600">Average {completionLabel.toLowerCase()}</p>
+              <p className="mt-4 flex items-center gap-2 text-xs font-bold">
+                {comparison === null ? <><History aria-hidden="true" className="h-4 w-4 text-action" /> First saved session</> : comparison > 0 ? <><TrendingDown aria-hidden="true" className="h-4 w-4 text-signal" /> {comparison} ms faster than last time</> : comparison < 0 ? <><TrendingUp aria-hidden="true" className="h-4 w-4 text-caution" /> {Math.abs(comparison)} ms slower than last time</> : <><History aria-hidden="true" className="h-4 w-4 text-action" /> Same average as last time</>}
+              </p>
             </div>
             <dl className="border-t border-line text-sm">
               <div className="flex justify-between border-b border-line py-3"><dt className="text-slate-500">Best attempt</dt><dd className="data-number font-bold" data-best>{best} ms</dd></div>
+              <div className="flex justify-between border-b border-line py-3"><dt className="text-slate-500">Personal best</dt><dd className="data-number flex items-center gap-1 font-bold"><Trophy aria-hidden="true" className="h-3.5 w-3.5 text-action" /> {personalBest} ms</dd></div>
               <div className="flex justify-between border-b border-line py-3"><dt className="text-slate-500">Score band</dt><dd className="font-bold">{band.label}</dd></div>
               <div className="flex justify-between border-b border-line py-3"><dt className="text-slate-500">Estimated percentile</dt><dd className="font-bold">{percentile}th</dd></div>
               <div className="flex justify-between border-b border-line py-3"><dt className="text-slate-500">Consistency</dt><dd className="font-bold">{consistency}%</dd></div>
@@ -239,18 +283,33 @@ export function ReactionTest({ label = "Reaction lab", completionLabel = "Reacti
       </div>
 
       {phase === "complete" ? (
-        <div className="flex flex-wrap items-center gap-3 border-t border-line p-4">
-          <button type="button" onClick={reset} className="inline-flex min-h-10 items-center gap-2 rounded-md bg-action px-4 text-sm font-bold text-white hover:bg-blue-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-action">
-            <RotateCcw aria-hidden="true" className="h-4 w-4" /> Test again
-          </button>
-          <button type="button" onClick={copyResult} className="inline-flex min-h-10 items-center gap-2 rounded-md border border-line px-4 text-sm font-bold hover:bg-paper focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-action">
-            {copyStatus === "Copied" ? <Check aria-hidden="true" className="h-4 w-4" /> : <Copy aria-hidden="true" className="h-4 w-4" />} {copyStatus}
-          </button>
-          <button type="button" onClick={shareScore} className="inline-flex min-h-10 items-center gap-2 rounded-md border border-line px-4 text-sm font-bold hover:bg-paper focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-action">
-            {shareStatus === "Image downloaded" ? <Download aria-hidden="true" className="h-4 w-4" /> : <Share2 aria-hidden="true" className="h-4 w-4" />} {shareStatus}
-          </button>
-          <p className="w-full text-xs text-slate-500 md:ml-auto md:w-auto">{band.summary}</p>
-          <p className="w-full text-[11px] leading-5 text-slate-400">Estimated percentile is based on a general online benchmark, not a clinical or population statistic.</p>
+        <div className="border-t border-line">
+          <div className="flex flex-wrap items-center gap-3 p-4">
+            <button type="button" onClick={reset} className="inline-flex min-h-10 items-center gap-2 rounded-md bg-action px-4 text-sm font-bold text-white hover:bg-blue-700 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-action">
+              <RotateCcw aria-hidden="true" className="h-4 w-4" /> Test again
+            </button>
+            <button type="button" onClick={copyResult} className="inline-flex min-h-10 items-center gap-2 rounded-md border border-line px-4 text-sm font-bold hover:bg-paper focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-action">
+              {copyStatus === "Copied" ? <Check aria-hidden="true" className="h-4 w-4" /> : <Copy aria-hidden="true" className="h-4 w-4" />} {copyStatus}
+            </button>
+            <button type="button" onClick={shareScore} className="inline-flex min-h-10 items-center gap-2 rounded-md border border-line px-4 text-sm font-bold hover:bg-paper focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-action">
+              {shareStatus === "Image downloaded" ? <Download aria-hidden="true" className="h-4 w-4" /> : <Share2 aria-hidden="true" className="h-4 w-4" />} {shareStatus}
+            </button>
+            <p className="w-full text-xs text-slate-500 md:ml-auto md:w-auto">{band.summary}</p>
+            <p className="w-full text-[11px] leading-5 text-slate-400">Estimated percentile is based on a general online benchmark, not a clinical or population statistic.</p>
+          </div>
+          {history.length > 0 ? (
+            <div className="border-t border-line bg-paper px-4 py-3" aria-label="Recent session history">
+              <div className="mb-3 flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.08em] text-slate-500"><span className="flex items-center gap-2"><History aria-hidden="true" className="h-3.5 w-3.5" /> Recent sessions</span><span>Lower is faster</span></div>
+              <div className="grid grid-cols-5 gap-2">
+                {history.map((session, index) => (
+                  <div className="min-w-0 border-l-2 border-line pl-2 first:border-action" key={`${session.id}-${session.completedAt}`}>
+                    <span className="block truncate text-[9px] uppercase text-slate-400">{index === 0 ? "Now" : `-${index}`}</span>
+                    <strong className="data-number mt-1 block text-sm">{session.average}<span className="ml-0.5 text-[9px] font-normal text-slate-500">ms</span></strong>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
       ) : null}
     </section>
