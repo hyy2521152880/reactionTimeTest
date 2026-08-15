@@ -16,4 +16,4 @@ npm.cmd run test
 npm.cmd run build
 ```
 ## How to use
-[site:reaction-test.org](https://reaction-test.org/)
+https://reaction-test.org/
